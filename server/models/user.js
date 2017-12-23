@@ -25,11 +25,41 @@ const getUserByAccount = async function (account) {
 }
 
 const getShareInfo = async function (id) {
-  const shareInfo = await ShareInfo.findOne({
+  const detailInfo = await DetailInfo.findOne({
     where: {
       user_id: id
     }
   })
+  delete detailInfo.id
+  delete detailInfo.user_id
+  const livingInfo = await LivingInfo.findOne({
+    where: {
+      user_id: id
+    }
+  })
+  delete livingInfo.id
+  delete livingInfo.user_id
+  const favoriteInfo = await FavoriteInfo.findOne({
+    where: {
+      user_id: id
+    }
+  })
+  delete favoriteInfo.id
+  delete favoriteInfo.user_id
+  const anotherInfo = await AnotherInfo.findOne({
+    where: {
+      user_id: id
+    }
+  })
+  delete anotherInfo.id
+  delete anotherInfo.user_id
+  let shareInfo = {
+    detailInfo,
+    livingInfo,
+    favoriteInfo,
+    anotherInfo
+  }
+  console.log(shareInfo)
   // console.log(shareInfo)
   return shareInfo
 }
