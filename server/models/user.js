@@ -1,12 +1,18 @@
 const db = require('../config/db.js')
 
 const userModel = '../schema/user.js' // 引入user的表结构
-const shareInfoModel = '../schema/share_info.js'
+const detailInfoModel = '../schema/detail_info.js'
+const livingInfoModel = '../schema/living_info.js'
+const favoriteInfoModel = '../schema/favorite_info.js'
+const anotherInfoModel = '../schema/another_info.js'
 
-const hospitalClient = db.MarriageClient // 引入数据库
+const marriageClient = db.MarriageClient // 引入数据库
 
-const User = hospitalClient.import(userModel)
-const ShareInfo = hospitalClient.import(shareInfoModel)
+const User = marriageClient.import(userModel)
+const DetailInfo = marriageClient.import(detailInfoModel)
+const LivingInfo = marriageClient.import(livingInfoModel)
+const FavoriteInfo = marriageClient.import(favoritelInfoModel)
+const AnotherInfo = marriageClient.import(anotherInfoModel)
 
 const getUserByAccount = async function (account) {
   const getUser = await User.findOne({
@@ -41,10 +47,10 @@ const resetPassword = async function (id, account, password) {
   return result[0] === 1
 }
 
-const update = async function (id, info) {
+const updateDetailInfo = async function (id, info) {
   console.log(typeof info)
   console.log('info is', info)
-  const result = await ShareInfo.update(info, {
+  const result = await DetailInfo.update(info, {
     where: {
       user_id: id
     }
@@ -53,6 +59,41 @@ const update = async function (id, info) {
   return true
 }
 
+const updateLivingInfo = async function (id, info) {
+  console.log(typeof info)
+  console.log('info is', info)
+  const result = await LivingInfo.update(info, {
+    where: {
+      user_id: id
+    }
+  })
+  console.log('in update, result is', result)
+  return true
+}
+
+const updateFavoriteInfo = async function (id, info) {
+  console.log(typeof info)
+  console.log('info is', info)
+  const result = await FavoriteInfo.update(info, {
+    where: {
+      user_id: id
+    }
+  })
+  console.log('in update, result is', result)
+  return true
+}
+
+const updateAnotherInfo = async function (id, info) {
+  console.log(typeof info)
+  console.log('info is', info)
+  const result = await AnotherInfo.update(info, {
+    where: {
+      user_id: id
+    }
+  })
+  console.log('in update, result is', result)
+  return true
+}
 const createUser = async function (token, info) {
   await User.create({
     account: token,
@@ -109,11 +150,7 @@ const createUser = async function (token, info) {
     another_has_baby: info.another_has_baby,
     another_want_baby: info.another_want_baby,
   })
-
-
-
 }
-
 
 const correct = async function (token) {
   const result = await User.findOne({
@@ -128,7 +165,10 @@ module.exports = {
   getUserByAccount,
   getShareInfo,
   resetPassword,
-  update,
+  updateDetailInfo,
+  updateLivingInfo,
+  updateFavoriteInfo,
+  updateAnotherInfo,
   createUser,
   correct
 }

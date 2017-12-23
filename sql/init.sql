@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS user (
     password VARCHAR(256) NOT NULL,
     PRIMARY KEY (id));
 
-CREATE USER 'marriage_client'@'localhost' IDENTIFIED BY 'marriage_client';
-GRANT ALL ON marriage_client.* TO 'marriage_client'@'localhost';
+-- CREATE USER 'marriage_client'@'localhost' IDENTIFIED BY 'marriage_client';
+-- GRANT ALL ON marriage_client.* TO 'marriage_client'@'localhost';
 
-CREATE TABLE IF NOT EXISTS share_info (
+CREATE TABLE IF NOT EXISTS detail_info (
     id INT UNSIGNED AUTO_INCREMENT,
     user_id INT UNSIGNED NOT NULL,
     age VARCHAR(4) NOT NULL,
@@ -27,6 +27,13 @@ CREATE TABLE IF NOT EXISTS share_info (
     constellation VARCHAR(16) NOT NULL,
     blood_type VARCHAR(16) NOT NULL,
     occupation VARCHAR(64) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS living_info (
+    id INT UNSIGNED AUTO_INCREMENT,
+    user_id INT UNSIGNED NOT NULL,
     incoming_pre_year VARCHAR(16) NOT NULL,
     house VARCHAR(8) NOT NULL,
     car VARCHAR(8) NOT NULL,
@@ -42,12 +49,26 @@ CREATE TABLE IF NOT EXISTS share_info (
     exercise VARCHAR(64) NOT NULL,
     diet VARCHAR(64) NOT NULL,
     timetable VARCHAR(128) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS favorite_info (
+    id INT UNSIGNED AUTO_INCREMENT,
+    user_id INT UNSIGNED NOT NULL,
     favorite_sport VARCHAR(64) NOT NULL,
     favorite_music VARCHAR(64) NOT NULL,
     favorite_movie VARCHAR(64) NOT NULL,
     favorite_food VARCHAR(64) NOT NULL,
     favorite_place VARCHAR(64) NOT NULL,
     favorite_pet VARCHAR(64) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS another_info (
+    id INT UNSIGNED AUTO_INCREMENT,
+    user_id INT UNSIGNED NOT NULL,
     another_gender VARCHAR(8) NOT NULL,
     another_age VARCHAR(4) NOT NULL,
     another_height VARCHAR(8) NOT NULL,
@@ -64,7 +85,6 @@ CREATE TABLE IF NOT EXISTS share_info (
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
-
 
 -- INSERT INTO user (account, password) VALUES ('test','testpw');
 
